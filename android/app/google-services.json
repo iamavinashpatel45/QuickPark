@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "454762576857",
+    "project_id": "quickpark-f8bf4",
+    "storage_bucket": "quickpark-f8bf4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:454762576857:android:2add01b323ee86ef2237c8",
+        "android_client_info": {
+          "package_name": "com.example.parking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "454762576857-ve077nun81q194pj595dudc30u7qgskh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQQ6-JOJqn8tjIWigwLvMgQBXVWSVxWGA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "454762576857-ve077nun81q194pj595dudc30u7qgskh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
