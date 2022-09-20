@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "name": "Car",
+    "desc": "H < 2.0 m, L < 5 m",
+    "image": "assets/vehicles/car.png"
+  },
+  {
+    "id": 2,
+    "name": "Bike",
+    "desc": "L < 2.5 m",
+    "image": "assets/vehicles/bike.png"
+  },
+  {
+    "id": 3,
+    "name": "Van",
+    "desc": "H < 2.2 m, L < 6.5 m",
+    "image": "assets/vehicles/van.png"
+  },
+  {
+    "id": 4,
+    "name": "Bus",
+    "desc": "H < 5.0 m, L < 12.0 m",
+    "image": "assets/vehicles/bus.png"
+  },
+  {
+    "id": 5,
+    "name": "6m Truck",
+    "desc": "H < 3.5 m, L < 6.0 m",
+    "image": "assets/vehicles/s_truck.png"
+  },
+  {
+    "id": 6,
+    "name": "12m truck",
+    "desc": "H < 3.5 m, L < 12 m",
+    "image": "assets/vehicles/b_truck.png"
+  }
+]

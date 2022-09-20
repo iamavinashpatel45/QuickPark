@@ -1,17 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:parking/account/account.dart';
-import 'package:parking/giver/home.dart';
+import 'package:parking/taker/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../giver/home.dart';
+
 class log_in extends StatefulWidget {
+  final bool choise;
+
+  const log_in({Key? key, required this.choise}) : super(key: key);
+
   @override
   State<log_in> createState() => _log_inState();
 }
 
 class _log_inState extends State<log_in> {
+  Color color = HexColor("#4f79c6");
   final _key = GlobalKey<FormState>();
   bool pressed = false;
   String? email;
@@ -20,49 +29,73 @@ class _log_inState extends State<log_in> {
 
   gohome() async {
     if (_key.currentState!.validate()) {
-      pressed = true;
-      setState(() {});
-      try {
-        SharedPreferences add = await SharedPreferences.getInstance();
-        await FirebaseAuth.instance
-            .signInWithEmailAndPassword(email: email!, password: pass!);
-        await FirebaseFirestore.instance
-            .collection("userdata")
-            .doc(FirebaseAuth.instance.currentUser?.uid)
-            .get()
-            .then((value) => {
-                  account.email_ = value.data()!['email'],
-                  account.num_ = value.data()!['num'],
-                  account.pass_ = value.data()!['pass'],
-                  account.fname_ = value.data()!['fname'],
-                  account.lname_ = value.data()!['lname'],
-                  add.setString("email", account.email_!),
-                  add.setString("num", account.num_!),
-                  add.setString("pass", account.pass_!),
-                  add.setString("fname", account.fname_!),
-                  add.setString("lname", account.lname_!),
-                });
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => g_home()));
-      } on FirebaseAuthException catch (e) {
-        pressed = false;
-        setState(() {});
-        switch (e.code) {
-          case "invalid-email":
-            Fluttertoast.showToast(msg: 'invalid-email');
-            break;
-          case "wrong-password":
-            Fluttertoast.showToast(msg: 'Wrong-password');
-            break;
-          case "weak-password":
-            Fluttertoast.showToast(msg: 'Weak-password');
-            break;
+      FocusScope.of(context).unfocus();
+      setState(() {
+        pressed = true;
+      });
+      if (await fun.checkInternet()) {
+        try {
+          String x;
+          SharedPreferences add = await SharedPreferences.getInstance();
+          await FirebaseAuth.instance
+              .signInWithEmailAndPassword(email: email!, password: pass!);
+          await FirebaseFirestore.instance
+              .collection(widget.choise ? "userdata" : "user_data")
+              .doc(FirebaseAuth.instance.currentUser?.uid)
+              .get()
+              .then((value) => {
+                    account.email_ = value.data()!['email'],
+                    account.num_ = value.data()!['num'],
+                    account.pass_ = value.data()!['pass'],
+                    account.fname_ = value.data()!['fname'],
+                    account.lname_ = value.data()!['lname'],
+                    account.user_ = value.data()!['user'],
+                    if (account.user_ == false)
+                      {
+                        x = value.data()!['list'],
+                        account.list_ = x.split(","),
+                        add.setStringList('list', account.list_!)
+                      },
+                    add.setString("email", account.email_!),
+                    add.setString("num", account.num_!),
+                    add.setString("pass", account.pass_!),
+                    add.setString("fname", account.fname_!),
+                    add.setString("lname", account.lname_!),
+                    add.setBool('user', account.user_!),
+                  });
+          if (account.user_!) {
+            await fun.get_marker();
+            await fun.set_marker();
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const t_home()));
+          } else {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const g_home()));
+          }
+        } on FirebaseAuthException catch (e) {
+          pressed = false;
+          setState(() {});
+          switch (e.code) {
+            case "invalid-email":
+              Fluttertoast.showToast(msg: 'invalid-email');
+              break;
+            case "wrong-password":
+              Fluttertoast.showToast(msg: 'Wrong-password');
+              break;
+            case "weak-password":
+              Fluttertoast.showToast(msg: 'Weak-password');
+              break;
+          }
+        } catch (e) {
+          pressed = false;
+          setState(() {});
+          FirebaseAuth.instance.signOut();
+          Fluttertoast.showToast(msg: e.toString());
+          Fluttertoast.showToast(
+              msg: "Something Wrong,please try after some time");
         }
-      } catch (e) {
-        pressed = false;
-        setState(() {});
-        Fluttertoast.showToast(
-            msg: "Something Wrong,please try after some time");
+      } else {
+        Fluttertoast.showToast(msg: "You Your Internet connection");
       }
     }
   }
@@ -72,35 +105,41 @@ class _log_inState extends State<log_in> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        title: const Text("Log In"),
         elevation: 0,
-        iconTheme: IconThemeData(color: Colors.black),
-        backgroundColor: Colors.white,
+        backgroundColor: color,
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 100,
             ),
             Image.asset(
               'assets/logo_.jpg',
               scale: 2.5,
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
-            Text(
+            const Text(
               'Login Now',
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 25),
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 25,
+              ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            Text(
+            const Text(
               "Please enter the Details below to continue",
-              style: TextStyle(color: Colors.grey, fontSize: 13),
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 13,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
@@ -127,19 +166,19 @@ class _log_inState extends State<log_in> {
                             fillColor: Colors.grey,
                             hintText: "email",
                             labelText: "email",
-                            labelStyle: TextStyle(color: Colors.black),
-                            prefixIcon: Icon(
+                            labelStyle: const TextStyle(color: Colors.black),
+                            prefixIcon: const Icon(
                               Icons.person_rounded,
                               color: Colors.grey,
                             ),
                             focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(color: Colors.black)),
+                                borderSide: const BorderSide(color: Colors.black)),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             )),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       TextFormField(
@@ -150,7 +189,7 @@ class _log_inState extends State<log_in> {
                           if (value!.isEmpty) {
                             return "please enter password";
                           }
-                          if (value.length < 7) {
+                          if (value.length < 9) {
                             return "password contain 8 characters";
                           }
                           return null;
@@ -161,11 +200,11 @@ class _log_inState extends State<log_in> {
                             fillColor: Colors.grey,
                             hintText: "password",
                             labelText: "password",
-                            labelStyle: TextStyle(color: Colors.black),
+                            labelStyle: const TextStyle(color: Colors.black),
                             focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(color: Colors.black)),
-                            prefixIcon: Icon(
+                                borderSide: const BorderSide(color: Colors.black)),
+                            prefixIcon: const Icon(
                               Icons.security,
                               color: Colors.grey,
                             ),
@@ -173,10 +212,15 @@ class _log_inState extends State<log_in> {
                               borderRadius: BorderRadius.circular(10),
                             )),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
-                      Material(
+                      pressed
+                          ? SpinKitCircle(
+                        color: color,
+                              size: 50.0,
+                            )
+                          : Material(
                         elevation: 5,
                         borderRadius: BorderRadius.circular(10),
                         child: InkWell(
@@ -186,24 +230,19 @@ class _log_inState extends State<log_in> {
                           child: Container(
                             width: 100,
                             height: 50,
-                            child: pressed
-                                ? CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    color: Colors.white,
-                                  )
-                                : Text(
-                                    'Login',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                            child: const Text(
+                              'Login',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: Colors.white,
+                              ),
+                            ),
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 78, 120, 198),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                              color: color,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                           ),
                         ),
                       ),

@@ -1,34 +1,50 @@
 {
   "project_info": {
-    "project_number": "454762576857",
-    "project_id": "quickpark-f8bf4",
-    "storage_bucket": "quickpark-f8bf4.appspot.com"
+    "project_number": "1013423394487",
+    "firebase_url": "https://quickpark-d8b8d-default-rtdb.firebaseio.com",
+    "project_id": "quickpark-d8b8d",
+    "storage_bucket": "quickpark-d8b8d.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:454762576857:android:2add01b323ee86ef2237c8",
+        "mobilesdk_app_id": "1:1013423394487:android:3ef7545d75b9b574c58732",
         "android_client_info": {
           "package_name": "com.example.parking"
         }
       },
       "oauth_client": [
         {
-          "client_id": "454762576857-ve077nun81q194pj595dudc30u7qgskh.apps.googleusercontent.com",
+          "client_id": "1013423394487-fsdqnnf5h9fig1ngvob4vd8h7b19qt4c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.parking",
+            "certificate_hash": "1cc35fc2d59e7f6d15b026ab3d9b2f5a6197387d"
+          }
+        },
+        {
+          "client_id": "1013423394487-jqb4c9fjmk9rd0t3ik64blljagp69jvk.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCQQ6-JOJqn8tjIWigwLvMgQBXVWSVxWGA"
+          "current_key": "AIzaSyAOHJaFRDEVfDeZ1tPVTl7GWuQ6gUX_ZM0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "454762576857-ve077nun81q194pj595dudc30u7qgskh.apps.googleusercontent.com",
+              "client_id": "1013423394487-jqb4c9fjmk9rd0t3ik64blljagp69jvk.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "1013423394487-oc2vk6qhbq9ju2uf331uk4o712u0osl2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.parking"
+              }
             }
           ]
         }

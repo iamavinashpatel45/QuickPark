@@ -1,9 +1,11 @@
-import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:sliding_switch/sliding_switch.dart';
-import 'package:location/location.dart';
-import 'slidinguppanel/slidinguppanel.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:parking/drawer/drawer.dart';
 
 class g_home extends StatefulWidget {
   const g_home({Key? key}) : super(key: key);
@@ -13,132 +15,258 @@ class g_home extends StatefulWidget {
 }
 
 class _g_homeState extends State<g_home> {
-  Completer<GoogleMapController> _controller = Completer();
-  LocationData? livelocation;
+  bool go = true;
+  String uid = FirebaseAuth.instance.currentUser!.uid;
+  DatabaseReference db = FirebaseDatabase.instance
+      .ref("booking/" + FirebaseAuth.instance.currentUser!.uid);
 
-  Future go_on_liveloaction()async {
-    Location location = Location();
-    await location.getLocation().then((location) => {livelocation = location});
-    setState(() {
-    });
+  _callNumber(String num) async {
+    await FlutterPhoneDirectCaller.callNumber(num);
   }
 
-  Future getlocation() async {
-    // await Geolocator.requestPermission();
-    Location location = Location();
-    await location.getLocation().then((location) => {livelocation = location});
-    setState(() {});
-  }
-
-  @override
-  void initState() {
-    getlocation();
-    super.initState();
+  delete_data(String key) async {
+    DatabaseReference db_delete = FirebaseDatabase.instance.ref(
+        "booking(user)/" + FirebaseAuth.instance.currentUser!.uid + "/" + key);
+    await db_delete.remove().then((value) => () {
+          go = false;
+        });
   }
 
   @override
   Widget build(BuildContext context) {
+    print(db.toString());
     return Scaffold(
-      body: livelocation == null
-          ? Center(
-              child: Image.asset("assets/logo_.jpg"),
-            )
-          : Stack(
-              children: [
-                Container(
-                  child: GoogleMap(
-                    mapType: MapType.normal,
-                    initialCameraPosition: CameraPosition(
-                        target: LatLng(
-                            livelocation!.latitude!, livelocation!.longitude!),
-                        zoom: 15),
-                    onMapCreated: (GoogleMapController controller) {
-                      _controller.complete(controller);
-                    },
-                    markers: {
-                      Marker(
-                          markerId: MarkerId('Live Loaction'),
-                          position: LatLng(livelocation!.latitude!,
-                              livelocation!.longitude!))
-                    },
+      drawer: const drawer(
+        type: false,
+      ),
+      appBar: AppBar(
+        title: const Text('booking'),
+        backgroundColor: HexColor("#4f79c6"),
+        elevation: 0,
+      ),
+      body: FirebaseAnimatedList(
+        shrinkWrap: true,
+        query: db,
+        defaultChild: Center(
+          child: SpinKitCubeGrid(
+            color: HexColor("#4f79c6"),
+            size: 50.0,
+          ),
+        ),
+        itemBuilder: (context, snapshot, animation, index) {
+          go = true;
+          DateTime.now().isBefore(
+                  DateTime.parse(snapshot.child('ldate').value.toString()))
+              ? () {}
+              : delete_data(snapshot.key!);
+          return go
+              ? Card(
+                  elevation: 10,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                ),
-                Positioned(
-                  top: 40,
-                  left: 20,
                   child: Container(
-                    height: 40,
-                    width: 40,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white),
-                    child: Center(
-                      child: Icon(Icons.menu),
+                      border: Border.all(
+                        color: Colors.black,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                  ),
-                ),
-                Positioned(
-                  bottom: 120,
-                  left: 10,
-                  child: InkWell(
-                    onTap: (){
-                      getlocation();
-                    },
-                    child: Container(
-                      height: 50,
-                      width: 50,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: Colors.white),
-                      child: Center(
-                        child: Icon(Icons.my_location),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Column(
+                        children: [
+                          IntrinsicHeight(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                VerticalDivider(
+                                  color: HexColor("#4f79c6"),
+                                  thickness: 8,
+                                ),
+                                Expanded(
+                                    child: Text(
+                                  snapshot.child('fname').value.toString() +
+                                      snapshot.child('lname').value.toString(),
+                                  style: TextStyle(fontSize: 18),
+                                )),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 18),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 5, bottom: 10, right: 20),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'BASIC PASS',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              color: HexColor("#4f79c6"),
+                                              fontSize: 18,
+                                            ),
+                                          ),
+                                          const Text(
+                                            'SINGLE ENTARY AND EXIT',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Image.asset(
+                                                snapshot
+                                                    .child('vehical_path')
+                                                    .value
+                                                    .toString(),
+                                                scale: 18,
+                                              ),
+                                              Text(snapshot
+                                                  .child('type')
+                                                  .value
+                                                  .toString()),
+                                            ],
+                                          ),
+                                          Text(
+                                            '₹ ' +
+                                                snapshot
+                                                    .child('amount')
+                                                    .value
+                                                    .toString(),
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              color: HexColor("#4f79c6"),
+                                              fontSize: 18,
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        MyBullet(),
+                                        const SizedBox(
+                                            width: 50, child: Text(" From")),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[300],
+                                            border: Border.all(
+                                              color: Colors.black,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8, vertical: 4),
+                                            child: Text(
+                                              snapshot
+                                                  .child('atime')
+                                                  .value
+                                                  .toString(),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const Text(" •"),
+                                    const Text(" •"),
+                                    Row(
+                                      children: [
+                                        MyBullet(),
+                                        const SizedBox(
+                                            width: 50, child: Text(" Until")),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[300],
+                                            border: Border.all(
+                                              color: Colors.black,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8, vertical: 4),
+                                            child: Text(
+                                              snapshot
+                                                  .child('ltime')
+                                                  .value
+                                                  .toString(),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                // Text("From " +
+                                //     snapshot.child('atime').value.toString()),
+                                // Text("Until " +
+                                //     snapshot.child('ltime').value.toString()),
+                                InkWell(
+                                  onTap: () {
+                                    _callNumber(
+                                        snapshot.child('num').value.toString());
+                                  },
+                                  child: Row(
+                                    children: [
+                                      const Icon(Icons.phone),
+                                      Text(snapshot
+                                          .child('num')
+                                          .value
+                                          .toString())
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                ),
-                Positioned(
-                  top: 45,
-                  right: 20,
-                  child: Container(
-                    height: 35,
-                    width: 175,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(17),
-                        color: Colors.white),
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 8,
-                        ),
-                        Icon(
-                          Icons.ev_station,
-                          color: Colors.amber,
-                        ),
-                        SizedBox(
-                          width: 3,
-                        ),
-                        Text("Ev Parking"),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        SlidingSwitch(
-                          height: 25,
-                          width: 50,
-                          animationDuration: Duration(milliseconds: 300),
-                          textOff: '',
-                          textOn: '',
-                          value: false,
-                          onChanged: (bool value) {},
-                          onSwipe: () {},
-                          onDoubleTap: () {},
-                          onTap: () {},
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                slindingup(),
-              ],
-            ),
+                )
+              : Container();
+        },
+      ),
+    );
+  }
+}
+
+class MyBullet extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 10.0,
+      width: 10.0,
+      decoration: BoxDecoration(
+        color: Colors.black,
+        shape: BoxShape.circle,
+      ),
     );
   }
 }

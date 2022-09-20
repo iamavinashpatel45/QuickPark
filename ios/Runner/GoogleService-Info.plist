@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>454762576857-hpoaj3kt8pi3mqui4h8vijbd7q38qk2l.apps.googleusercontent.com</string>
+	<string>1013423394487-oc2vk6qhbq9ju2uf331uk4o712u0osl2.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.454762576857-hpoaj3kt8pi3mqui4h8vijbd7q38qk2l</string>
+	<string>com.googleusercontent.apps.1013423394487-oc2vk6qhbq9ju2uf331uk4o712u0osl2</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>1013423394487-fsdqnnf5h9fig1ngvob4vd8h7b19qt4c.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAvfxEsL5d1WtlMAHE98A-l76au4pHjfDo</string>
+	<string>AIzaSyBlEYnTZxP1CDbrwJpL0etHGC47AwYbGQ8</string>
 	<key>GCM_SENDER_ID</key>
-	<string>454762576857</string>
+	<string>1013423394487</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.example.parking</string>
 	<key>PROJECT_ID</key>
-	<string>quickpark-f8bf4</string>
+	<string>quickpark-d8b8d</string>
 	<key>STORAGE_BUCKET</key>
-	<string>quickpark-f8bf4.appspot.com</string>
+	<string>quickpark-d8b8d.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +31,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:454762576857:ios:d5e8ba7e393e72432237c8</string>
+	<string>1:1013423394487:ios:c85fb3afac2bfeb3c58732</string>
+	<key>DATABASE_URL</key>
+	<string>https://quickpark-d8b8d-default-rtdb.firebaseio.com</string>
 </dict>
 </plist>
