@@ -84,11 +84,10 @@ class _bookedState extends State<booked> {
                                   ),
                                   Expanded(
                                       child: Text(
-                                    snapshot
-                                        .child('address')
-                                        .value
-                                        .toString(),
-                                    style: TextStyle(fontSize: 18),
+                                    snapshot.child('address').value.toString(),
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                    ),
                                   )),
                                 ],
                               ),
@@ -273,7 +272,7 @@ class MyBullet extends StatelessWidget {
     return Container(
       height: 10.0,
       width: 1.0,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.black,
         shape: BoxShape.circle,
       ),

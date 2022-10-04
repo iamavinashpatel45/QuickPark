@@ -1,5 +1,4 @@
 import 'package:date_time_picker_widget/date_time_picker_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:page_transition/page_transition.dart';
@@ -95,49 +94,47 @@ class _datetime_picker_leaveState extends State<datetime_picker_leave> {
                 fontSize: 15,
               ),
             ),
-            Container(
-              child: DateTimePicker(
-                  key: _key,
-                  type: DateTimePickerType.Both,
-                  startDate: booking_details.a_date,
-                  endDate: datetime.add(const Duration(days: 7)),
-                  startTime: booking_details.a_date!.day == DateTime
-                      .now()
-                      .day
-                      ? booking_details.a_time!.add(const Duration(minutes: 30))
-                      : DateTime.parse("1969-07-20 00:00:00Z"),
-                  timeInterval: const Duration(minutes: 30),
-              onTimeChanged: (time) {
-                setState(() {
-                  booking_details.l_time = time;
-                  booking_details.difference = booking_details.l_time!
-                      .difference(booking_details.a_time!);
-                  int dur_hou = booking_details.difference!.inHours;
-                  double dur_min = (booking_details.difference!.inMinutes -
-                      (booking_details.difference!.inHours * 60))/30;
-                  if (booking_details.vehicle_type == 1) {
-                    booking_details.amount = dur_hou * 40 + dur_min * 20;
-                    } else if (booking_details.vehicle_type == 2) {
-                      booking_details.amount = dur_hou * 30 + dur_min * 15;
-                    } else if (booking_details.vehicle_type == 3) {
-                      booking_details.amount = dur_hou * 50 + dur_min * 25;
-                    } else if (booking_details.vehicle_type == 4) {
-                      booking_details.amount = dur_hou * 50 + dur_min * 30;
-                    } else if (booking_details.vehicle_type == 5) {
-                      booking_details.amount = dur_hou * 80 + dur_min * 40;
-                    } else {
-                      booking_details.amount = dur_hou * 100 + dur_min * 50;
-                    }
-                  if(booking_details.amount!<0)
-                    {
-                      booking_details.amount=-(booking_details.amount!);
-                    }
-                  });
-                },
-                onDateChanged: (date) {
-                  booking_details.l_date = date;
-                },
-              ),
+            DateTimePicker(
+                key: _key,
+                type: DateTimePickerType.Both,
+                startDate: booking_details.a_date,
+                endDate: datetime.add(const Duration(days: 7)),
+                startTime: booking_details.a_date!.day == DateTime
+                    .now()
+                    .day
+                    ? booking_details.a_time!.add(const Duration(minutes: 30))
+                    : DateTime.parse("1969-07-20 00:00:00Z"),
+                timeInterval: const Duration(minutes: 30),
+            onTimeChanged: (time) {
+              setState(() {
+                booking_details.l_time = time;
+                booking_details.difference = booking_details.l_time!
+                    .difference(booking_details.a_time!);
+                int dur_hou = booking_details.difference!.inHours;
+                double dur_min = (booking_details.difference!.inMinutes -
+                    (booking_details.difference!.inHours * 60))/30;
+                if (booking_details.vehicle_type == 1) {
+                  booking_details.amount = dur_hou * 40 + dur_min * 20;
+                  } else if (booking_details.vehicle_type == 2) {
+                    booking_details.amount = dur_hou * 30 + dur_min * 15;
+                  } else if (booking_details.vehicle_type == 3) {
+                    booking_details.amount = dur_hou * 50 + dur_min * 25;
+                  } else if (booking_details.vehicle_type == 4) {
+                    booking_details.amount = dur_hou * 50 + dur_min * 30;
+                  } else if (booking_details.vehicle_type == 5) {
+                    booking_details.amount = dur_hou * 80 + dur_min * 40;
+                  } else {
+                    booking_details.amount = dur_hou * 100 + dur_min * 50;
+                  }
+                if(booking_details.amount!<0)
+                  {
+                    booking_details.amount=-(booking_details.amount!);
+                  }
+                });
+              },
+              onDateChanged: (date) {
+                booking_details.l_date = date;
+              },
             ),
             const SizedBox(
               height: 10,

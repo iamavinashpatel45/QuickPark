@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,6 @@ import 'package:page_transition/page_transition.dart';
 import 'package:parking/account/account.dart';
 import 'package:parking/taker/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'giver/home.dart';
 import 'log_in/choice.dart';
 

@@ -25,8 +25,9 @@ class _g_homeState extends State<g_home> {
   }
 
   delete_data(String key) async {
-    DatabaseReference db_delete = FirebaseDatabase.instance.ref(
-        "booking(user)/" + FirebaseAuth.instance.currentUser!.uid + "/" + key);
+    print("Avinash patel 123456789");
+    DatabaseReference db_delete = FirebaseDatabase.instance
+        .ref("booking/" + FirebaseAuth.instance.currentUser!.uid + "/" + key);
     await db_delete.remove().then((value) => () {
           go = false;
         });
@@ -73,7 +74,7 @@ class _g_homeState extends State<g_home> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 5),
                       child: Column(
                         children: [
                           IntrinsicHeight(

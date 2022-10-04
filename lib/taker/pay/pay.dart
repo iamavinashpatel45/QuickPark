@@ -1,11 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:parking/taker/booking_details.dart';
 import 'package:parking/taker/home.dart';
 import 'package:upi_india/upi_india.dart';
-
 import '../pdf.dart';
 
 class payment extends StatefulWidget {

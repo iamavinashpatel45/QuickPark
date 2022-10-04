@@ -1,5 +1,4 @@
 import 'package:date_time_picker_widget/date_time_picker_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:page_transition/page_transition.dart';
@@ -74,20 +73,18 @@ class _datetime_picker_arriveState extends State<datetime_picker_arrive> {
             const SizedBox(
               height: 15,
             ),
-            Container(
-              child: DateTimePicker(
-                type: DateTimePickerType.Both,
-                startDate: datetime,
-                endDate: datetime.add(const Duration(days: 7)),
-                startTime: datetime,
-                timeInterval: const Duration(minutes: 30),
-                onTimeChanged: (time) {
-                  booking_details.a_time = time;
-                },
-                onDateChanged: (date) {
-                  booking_details.a_date = date;
-                },
-              ),
+            DateTimePicker(
+              type: DateTimePickerType.Both,
+              startDate: datetime,
+              endDate: datetime.add(const Duration(days: 7)),
+              startTime: datetime,
+              timeInterval: const Duration(minutes: 30),
+              onTimeChanged: (time) {
+                booking_details.a_time = time;
+              },
+              onDateChanged: (date) {
+                booking_details.a_date = date;
+              },
             ),
             const SizedBox(
               height: 10,

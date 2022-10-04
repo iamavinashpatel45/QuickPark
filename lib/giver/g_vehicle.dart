@@ -80,7 +80,7 @@ class _g_vehicleState extends State<g_vehicle> {
         }
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => const g_home()));
-      } on FirebaseAuthException catch (e) {
+      } on FirebaseAuthException {
         setState(() {
           press_but = false;
         });
