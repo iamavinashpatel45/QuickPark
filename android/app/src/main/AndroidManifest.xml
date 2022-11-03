@@ -7,7 +7,7 @@
 
     <application
         android:name="${applicationName}"
-        android:icon="@drawable/logo_"
+        android:icon="@mipmap/ic_launcher"
         android:label="Quickpark">
         <activity
             android:name=".MainActivity"
@@ -35,6 +35,6 @@
             android:value="2" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAB5KbtC1YpO6U9mZDZEE0_wJ6QAZ8EQNY" />
+            android:value="Past api key" />
     </application>
 </manifest>

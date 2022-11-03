@@ -135,12 +135,12 @@ class _sign_upState extends State<sign_up> {
               width: MediaQuery.of(context).size.width,
               height: 10,
             ),
-            Image.asset(
-              'assets/logo_.jpg',
-              scale: 2.5,
-            ),
-            const SizedBox(
-              height: 10,
+            Hero(
+              tag: "logo",
+              child: Image.asset(
+                'assets/logo_.png',
+                scale: 2.2,
+              ),
             ),
             const Text(
               'Register with QuickPark',

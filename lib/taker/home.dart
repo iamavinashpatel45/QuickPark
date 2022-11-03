@@ -7,7 +7,6 @@ import 'package:location/location.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:parking/account/account.dart';
 import 'package:parking/drawer/drawer.dart';
-import 'package:parking/taker/booked/booked.dart';
 import 'package:parking/taker/vehicle/t_vehicle.dart';
 import 'package:upi_india/upi_india.dart';
 import '../taker/datetime_picker/datetime_picker_arrive.dart';
@@ -21,6 +20,7 @@ class t_home extends StatefulWidget {
 }
 
 class _t_homeState extends State<t_home> {
+  final GlobalKey<ScaffoldState> _drawerscaffoldkey = new GlobalKey<ScaffoldState>();
   Color color = HexColor("#4f79c6");
   GoogleMapController? _controller;
   LocationData? livelocation;
@@ -122,7 +122,7 @@ class _t_homeState extends State<t_home> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset("assets/logo_.jpg"),
+                  Image.asset("assets/logo_.png",scale: 1.8,),
                   const SizedBox(
                     height: 10,
                   ),
@@ -135,6 +135,7 @@ class _t_homeState extends State<t_home> {
             ),
           )
         : Scaffold(
+      key: _drawerscaffoldkey,
             drawer: const drawer(
               type: true,
             ),
@@ -330,7 +331,7 @@ class _t_homeState extends State<t_home> {
             left: 20,
             child: InkWell(
               onTap: () {
-                Scaffold.of(context).openDrawer();
+                _drawerscaffoldkey.currentState!.openDrawer();
               },
               child: Container(
                 height: 40,
@@ -351,30 +352,30 @@ class _t_homeState extends State<t_home> {
               ),
             ),
           ),
-            Positioned(
-      top: 80,
-      left: 20,
-      child: InkWell(
-        onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const booked()));
-        },
-        child: Container(
-          height: 40,
-          width: 40,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.white,
-              border: Border.all(
-                color: Colors.black,
-                width: 0.5,
-              )),
-          child: const Center(
-            child: Icon(Icons.bookmark),
-          ),
-        ),
-      ),
-            ),
+      //       Positioned(
+      // top: 80,
+      // left: 20,
+      // child: InkWell(
+      //   onTap: () {
+      //     Navigator.push(context,
+      //         MaterialPageRoute(builder: (context) => const booked()));
+      //   },
+      //   child: Container(
+      //     height: 40,
+      //     width: 40,
+      //     decoration: BoxDecoration(
+      //         borderRadius: BorderRadius.circular(10),
+      //         color: Colors.white,
+      //         border: Border.all(
+      //           color: Colors.black,
+      //           width: 0.5,
+      //         )),
+      //     child: const Center(
+      //       child: Icon(Icons.bookmark),
+      //     ),
+      //   ),
+      // ),
+      //       ),
             // Positioned(
             //   top: 45,
             //   right: 20,

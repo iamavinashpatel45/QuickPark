@@ -10,6 +10,7 @@ class account {
   static String? email_;
   static String? pass_;
   static String? num_;
+  static List<String> qr_data=[];
   static LocationData? livelocation;
   static bool? user_;
   static List? data_vehicle;
@@ -119,7 +120,15 @@ class fun {
     List<Placemark> placemarks =
         await placemarkFromCoordinates(latLng.latitude, latLng.longitude);
     Placemark place = placemarks[0];
-    return '${place.locality}, ${place.thoroughfare}, ${place.administrativeArea}, ${place.postalCode}';
+    print(place);
+    if(place.locality!.isEmpty || place.thoroughfare!.isEmpty)
+      {
+        return '${place.street}, ${place.subAdministrativeArea}, ${place.administrativeArea}, ${place.postalCode}';
+      }
+    else
+      {
+        return '${place.subLocality}, ${place.locality}, ${place.administrativeArea}, ${place.postalCode}';
+      }
   }
 
   static get_marker() async {

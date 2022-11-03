@@ -63,6 +63,9 @@ class booking_details {
               .format(context);
       String g_id = marker!.markerId.value.toString();
       String? g_num;
+      double a=1234;
+      String? random=vehical!+"Quick_Park"+a.toString();
+      a=a+5;
       DatabaseReference db = FirebaseDatabase.instance.ref();
       db = FirebaseDatabase.instance.ref("booking(user)/" + uid);
       await FirebaseFirestore.instance
@@ -77,9 +80,10 @@ class booking_details {
         "num": g_num!,
         "atime": a_time,
         "ltime": l_time,
+        "random": random,
         "ldate": booking_details.l_time.toString(),
         "amount": booking_details.amount.toString(),
-        "type": vehical!,
+        "type": vehical,
         "vehical_path": vehical_path!
       };
       bool result = false;
@@ -97,6 +101,7 @@ class booking_details {
         "num": account.num_!,
         "atime": a_time,
         "ltime": l_time,
+        "random": random,
         "ldate": booking_details.l_time.toString(),
         "type": vehical,
         "amount": booking_details.amount.toString(),

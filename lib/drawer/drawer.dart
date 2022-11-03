@@ -1,10 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:parking/account/account.dart';
 import 'package:parking/giver/g_vehicle.dart';
+import 'package:parking/log_in/choice.dart';
+import '../taker/booked/booked.dart';
+import 'done.dart';
 
 class drawer extends StatelessWidget {
   final bool type;
+
   const drawer({Key? key, required this.type}) : super(key: key);
 
   @override
@@ -31,25 +36,71 @@ class drawer extends StatelessWidget {
                 },
               ),
               !type
-                  ? ListTile(
-                      leading: const Icon(Icons.update),
-                      title: const Text("Update Data"),
+                  ? Column(
+                      children: [
+                        ListTile(
+                          leading: const Icon(Icons.update),
+                          title: const Text("Update Data"),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => g_vehicle(
+                                          uid: FirebaseAuth
+                                              .instance.currentUser!.uid,
+                                          update: true,
+                                        )));
+                          },
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.update),
+                          title: const Text("Scan Qr Code"),
+                          onTap: () async {
+                            bool quick = false;
+                            String result =
+                                await FlutterBarcodeScanner.scanBarcode(
+                                    '#ff6666', 'Cancel', true, ScanMode.QR);
+                            for (int i = 0; i < account.qr_data.length; i++) {
+                              if (account.qr_data[i] == result) {
+                                quick = true;
+                                break;
+                              }
+                            }
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => done(
+                                          status: quick,
+                                        )));
+                          },
+                        ),
+                      ],
+                    )
+                  : ListTile(
+                      leading: const Icon(Icons.my_library_books),
+                      title: const Text("My Booking"),
                       onTap: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => g_vehicle(
-                                      uid: FirebaseAuth
-                                          .instance.currentUser!.uid,
-                                      update: true,
-                                    )));
+                                builder: (context) => const booked()));
                       },
                     )
-                  : Container()
             ],
           ),
           Column(
             children: [
+              ListTile(
+                leading: const Icon(Icons.logout),
+                title: const Text("Log Out"),
+                onTap: () {
+                  FirebaseAuth.instance.signOut();
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => choice(choise: true)));
+                },
+              ),
               ListTile(
                 leading: const Icon(Icons.contacts),
                 title: const Text("Contact Us"),

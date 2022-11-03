@@ -7,7 +7,6 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:parking/account/account.dart';
 import 'package:parking/taker/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../giver/home.dart';
 
 class log_in extends StatefulWidget {
@@ -44,25 +43,25 @@ class _log_inState extends State<log_in> {
               .doc(FirebaseAuth.instance.currentUser?.uid)
               .get()
               .then((value) => {
-                    account.email_ = value.data()!['email'],
-                    account.num_ = value.data()!['num'],
-                    account.pass_ = value.data()!['pass'],
-                    account.fname_ = value.data()!['fname'],
-                    account.lname_ = value.data()!['lname'],
-                    account.user_ = value.data()!['user'],
-                    if (account.user_ == false)
-                      {
-                        x = value.data()!['list'],
-                        account.list_ = x.split(","),
-                        add.setStringList('list', account.list_!)
-                      },
-                    add.setString("email", account.email_!),
-                    add.setString("num", account.num_!),
-                    add.setString("pass", account.pass_!),
-                    add.setString("fname", account.fname_!),
-                    add.setString("lname", account.lname_!),
-                    add.setBool('user', account.user_!),
-                  });
+            account.email_ = value.data()!['email'],
+            account.num_ = value.data()!['num'],
+            account.pass_ = value.data()!['pass'],
+            account.fname_ = value.data()!['fname'],
+            account.lname_ = value.data()!['lname'],
+            account.user_ = value.data()!['user'],
+            if (account.user_ == false)
+              {
+                x = value.data()!['list'],
+                account.list_ = x.split(","),
+                add.setStringList('list', account.list_!)
+              },
+            add.setString("email", account.email_!),
+            add.setString("num", account.num_!),
+            add.setString("pass", account.pass_!),
+            add.setString("fname", account.fname_!),
+            add.setString("lname", account.lname_!),
+            add.setBool('user', account.user_!),
+          });
           if (account.user_!) {
             await fun.get_marker();
             await fun.set_marker();
@@ -117,12 +116,12 @@ class _log_inState extends State<log_in> {
             const SizedBox(
               height: 100,
             ),
-            Image.asset(
-              'assets/logo_.jpg',
-              scale: 2.5,
-            ),
-            const SizedBox(
-              height: 15,
+            Hero(
+              tag: "logo",
+              child: Image.asset(
+                'assets/logo_.png',
+                scale: 2.2,
+              ),
             ),
             const Text(
               'Login Now',
@@ -218,8 +217,8 @@ class _log_inState extends State<log_in> {
                       pressed
                           ? SpinKitCircle(
                         color: color,
-                              size: 50.0,
-                            )
+                        size: 50.0,
+                      )
                           : Material(
                         elevation: 5,
                         borderRadius: BorderRadius.circular(10),
@@ -241,8 +240,8 @@ class _log_inState extends State<log_in> {
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
                               color: color,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
                         ),
                       ),

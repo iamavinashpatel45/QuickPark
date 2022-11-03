@@ -28,12 +28,15 @@ class _choiceState extends State<choice> {
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 115,
+            SizedBox(
+              height: widget.choise == true ? 115 : 95,
             ),
-            Image.asset(
-              'assets/logo_.jpg',
-              scale: 2.5,
+            Hero(
+              tag: "logo",
+              child: Image.asset(
+                'assets/logo_.png',
+                scale: 2.2,
+              ),
             ),
             SizedBox(
               height: widget.choise == true ? 0 : 20,

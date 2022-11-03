@@ -25,13 +25,13 @@ class _datetime_picker_arriveState extends State<datetime_picker_arrive> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(right: 10),
+            padding: const EdgeInsets.only(right: 30,top: 75),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Image.asset(
                   "assets/clock.png",
-                  height: MediaQuery.of(context).size.height * 0.2,
+                  height: MediaQuery.of(context).size.height * 0.25,
                 ),
               ],
             ),

@@ -3,7 +3,9 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@android:color/white" />
 
-    <!-- You can insert your own image assets here -->
+    <!-- You can insert your own image assets here
+    AIzaSyAB5KbtC1YpO6U9mZDZEE0_wJ6QAZ8EQNY
+    -->
     <!-- <item>
         <bitmap
             android:gravity="center"

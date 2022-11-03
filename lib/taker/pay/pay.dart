@@ -3,8 +3,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:parking/taker/booking_details.dart';
 import 'package:parking/taker/home.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:upi_india/upi_india.dart';
-import '../pdf.dart';
 
 class payment extends StatefulWidget {
   const payment({Key? key}) : super(key: key);
@@ -23,6 +23,8 @@ class _paymentState extends State<payment> {
   String? vehicle_name;
   int _value = 1;
   bool pay = true;
+  Razorpay _razorpay = Razorpay();
+
 
   booking() async {
     setState(() {
@@ -41,16 +43,16 @@ class _paymentState extends State<payment> {
       }
   }
 
-  initiateTransaction(UpiApp app) async {
-    _transaction = _upiIndia.startTransaction(
-      app: app,
-      receiverUpiId: "avinashspatel11-1@okaxis",
-      receiverName: 'Quick Park',
-      transactionRefId: 'Quick Park Team',
-      transactionNote: 'Quick park',
-      amount: booking_details.amount!,
-    );
-  }
+  // initiateTransaction(UpiApp app) async {
+  //   _transaction = _upiIndia.startTransaction(
+  //     app: app,
+  //     receiverUpiId: "avinashspatel11-1@okaxis",
+  //     receiverName: 'Quick Park',
+  //     transactionRefId: 'Quick Park Team',
+  //     transactionNote: 'Quick park',
+  //     amount: booking_details.amount!,
+  //   );
+  // }
 
   set_vehicle() {
     if (booking_details.vehicle_type == 1) {
@@ -77,12 +79,47 @@ class _paymentState extends State<payment> {
     });
   }
 
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    // Do something when payment succeeds
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    // Do something when payment fails
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    // Do something when an external wallet is selected
+  }
+
+  var options = {
+    'key': 'rzp_test_pX2RUMX7cV11Pz',
+    'amount': booking_details.amount!, //in the smallest currency sub-unit.
+    'name': 'QuickPark',
+    'order_id': 'order_EMBFqjDHEEn80l', // Generate order_id using Orders API
+    'description': '',
+    'timeout': 180, // in seconds
+    'prefill': {
+      'contact': '9123456789',
+      'email': 'gaurav.kumar@example.com'
+    }
+  };
+
+
+
   @override
   void initState() {
     set_vehicle();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
     super.initState();
   }
 
+  @override
+  void dispose() {
+    _razorpay.clear(); // Removes all listeners
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     int dur_hou = booking_details.difference!.inHours;
@@ -330,14 +367,19 @@ class _paymentState extends State<payment> {
                                         .map<Widget>((UpiApp app) {
                                       return InkWell(
                                         onTap: () {
-                                          initiateTransaction(app);
-                                          _transaction!.catchError(() {});
-                                          _transaction!.whenComplete(() =>
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          const pdf())));
+                                          try{
+                                            _razorpay.open(options);
+                                          }
+                                          catch(e)
+                                          {}
+                                          // initiateTransaction(app);
+                                          // _transaction!.catchError(() {});
+                                          // _transaction!.whenComplete(() =>
+                                          //     Navigator.push(
+                                          //         context,
+                                          //         MaterialPageRoute(
+                                          //             builder: (context) =>
+                                          //                 const pdf())));
                                         },
                                         child: SizedBox(
                                           height: 100,
